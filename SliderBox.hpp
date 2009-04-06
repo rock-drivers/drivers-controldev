@@ -12,7 +12,7 @@
 #ifndef SLIDERBOX_H
 #define SLIDERBOX_H
 
-namespace control
+namespace controldev
 {
 
     /**

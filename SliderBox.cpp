@@ -21,7 +21,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 
-namespace control
+namespace controldev
 {
 
     const char SliderBox::transmission_on = 'n';

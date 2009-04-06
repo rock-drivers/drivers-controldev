@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <linux/joystick.h>
 
-namespace control
+namespace controldev
 {
 
     Joystick::Joystick() : initialized(false), deadspot(false), deadspot_size(0) {

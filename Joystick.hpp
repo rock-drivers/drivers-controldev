@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace control
+namespace controldev
 {
     class Joystick {
       public:
