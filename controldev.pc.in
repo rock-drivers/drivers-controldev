@@ -3,9 +3,9 @@ exec_prefix=@CMAKE_INSTALL_PREFIX@
 libdir=${prefix}/lib
 includedir=${prefix}/include
 
-Name: hbridge
+Name: controldev
 Description: (Remote) control drivers for the ASGuard
 Version: @PROJECT_VERSION@
-Libs: -L${libdir} -lcontrol
+Libs: -L${libdir} -lcontroldev
 Cflags: -I${includedir}
 
