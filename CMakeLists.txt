@@ -23,7 +23,7 @@ ADD_CUSTOM_TARGET(doc doxygen Doxyfile)
 INSTALL(TARGETS controldev
 	RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib)
-INSTALL(FILES Joystick.h SliderBox.h DESTINATION include)
+INSTALL(FILES Joystick.hpp SliderBox.hpp DESTINATION include)
 
 CONFIGURE_FILE(controldev.pc.in controldev.pc @ONLY)
 INSTALL(FILES ${CMAKE_BINARY_DIR}/controldev.pc DESTINATION lib/pkgconfig)
