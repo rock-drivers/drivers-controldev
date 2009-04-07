@@ -16,7 +16,7 @@ find_package(PkgConfig)
 #LINK_DIRECTORIES(${DFKI_TYPES_LIBRARY_DIRS})
 
 ADD_LIBRARY(controldev SHARED Joystick.cpp SliderBox.cpp)
-TARGET_LINK_LIBRARIES(controldev ${DFKI_TYPES_LIBS})
+TARGET_LINK_LIBRARIES(controldev ${DFKI_TYPES_LIBS} sysfs)
 
 CONFIGURE_FILE(Doxyfile.in Doxyfile @ONLY)
 ADD_CUSTOM_TARGET(doc doxygen Doxyfile)
