@@ -48,6 +48,11 @@ namespace controldev
           return buttons & (1 << nr);
         }
 
+        int getFileDescriptor()
+        {
+            return serial_fd;
+        }
+
     private:
         int serial_fd;
         bool initialized;

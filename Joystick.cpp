@@ -112,11 +112,12 @@ namespace controldev
       delete[] buttons;
     }
 
-    void Joystick::getAxis(int axis_nr, double &value) const{
-      if (!initialized)
-        return;
+    double Joystick::getAxis(Axis axis_nr) const
+    {
+      if (!initialized) return 0;
+      if (axis_nr > nb_axes) return 0;
 
-      value = axes[axis_nr] / 32767.0;
+      return axes[axis_nr] / 32767.0;
     }
 
 }

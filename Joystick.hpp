@@ -10,10 +10,18 @@ namespace controldev
       Joystick();
       ~Joystick();
 
-      static const int FORWARD_AXIS = 1;
-      static const int SIDEWARD_AXIS = 0;
-      static const int PAN_AXIS = 4;
-      static const int TILT_AXIS = 5;
+      enum Axis
+      {
+          AXIS_Sideward = 0,
+          AXIS_Forward = 1,
+          AXIS_Pan = 4,
+          AXIS_Tilt = 5, // What is the Tilt-Axis?
+      };
+
+//      static const int FORWARD_AXIS = 1;
+//      static const int SIDEWARD_AXIS = 0;
+//      static const int PAN_AXIS = 4;
+//      static const int TILT_AXIS = 5;
 
       bool init(std::string const& dev);
       
@@ -21,7 +29,7 @@ namespace controldev
       
       bool updateState();
       
-      void getAxis(int axis_nr, double &value) const;
+      double getAxis(Axis axis_nr) const;
 
       bool getButtonPressed(int btn_nr) const;
 
@@ -32,7 +40,11 @@ namespace controldev
       int getNrButtons() const {
         return nb_buttons;
       }
-      
+
+      int getFileDescriptor()
+      {
+          return fd;
+      }
 
       private:
       int fd;
