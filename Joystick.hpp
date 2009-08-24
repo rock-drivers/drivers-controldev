@@ -14,7 +14,9 @@ namespace controldev
       {
           AXIS_Sideward = 0,
           AXIS_Forward = 1,
-          AXIS_Pan = 4,
+	  AXIS_Turn = 2,
+          AXIS_Slider = 3,
+	  AXIS_Pan = 4,
           AXIS_Tilt = 5, // What is the Tilt-Axis?
       };
 

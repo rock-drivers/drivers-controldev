@@ -8,25 +8,47 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <linux/joystick.h>
+#include <errno.h>
 
 namespace controldev
 {
 
     Joystick::Joystick() : initialized(false), deadspot(false), deadspot_size(0) {
-
+	axes = 0;
+	buttons = 0;
+	fd = -1;
     }
 
     bool Joystick::init(std::string const& dev) {
-      if ((fd = open(dev.c_str(),O_RDONLY | O_NONBLOCK)) < 0) {
-        std::cout << "Warning: could not initialize joystick.\n";
-        initialized = false;
-        return false;
+      initialized = false;
+
+      if(axes) {
+	delete[] axes;
+	axes = 0;
       }
+      
+      if(buttons) {
+	delete[] buttons;
+	buttons = 0;
+      }
+      
+      if(fd != -1)
+	close(fd);
+
+      if ((fd = open(dev.c_str(),O_RDONLY | O_NONBLOCK)) < 0) {
+        //std::cout << "Warning: could not initialize joystick.\n";
+	fd = -1;
+        return false;
+      } 
 
       if(ioctl(fd, JSIOCGAXES, &nb_axes) == -1) {
         perror("axes");
+        return false;
       }
-      ioctl(fd, JSIOCGBUTTONS, &nb_buttons);
+      if(ioctl(fd, JSIOCGBUTTONS, &nb_buttons) == -1) {
+        perror("button");
+        return false;	
+      }
 
       std::cout << "Axes: " << nb_axes <<" Buttons: " << nb_buttons <<std::endl;
 
@@ -90,6 +112,17 @@ namespace controldev
         }
         return true;
       }
+
+      //go into error state on any error
+      if(errno != EAGAIN) {
+	initialized = false;
+	
+	if(fd != -1)
+	  close(fd);
+
+	fd = -1;
+      }
+	
       return false;
 
     }
@@ -104,12 +137,17 @@ namespace controldev
 
 
     Joystick::~Joystick() {
+      if(axes)
+	delete[] axes;
+      
+      if(buttons)
+	delete[] buttons;
+
+      if(fd =! -1)
+	close(fd);
+	
       if(!initialized)
         return;
-
-      close(fd);
-      delete[] axes;
-      delete[] buttons;
     }
 
     double Joystick::getAxis(Axis axis_nr) const
