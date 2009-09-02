@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <linux/joystick.h>
 #include <errno.h>
+#include <stdio.h>
 
 namespace controldev
 {
