@@ -3,9 +3,6 @@ PROJECT(controldev)
 
 cmake_minimum_required(VERSION 2.6)
 
-#if you don't want the full compiler output, remove the following line
-SET(CMAKE_VERBOSE_MAKEFILE ON)
-
 #add definitions, compiler switches, etc.
 ADD_DEFINITIONS(-Wall -O2)
 
