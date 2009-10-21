@@ -213,6 +213,44 @@ namespace controldev
     }
 
 
+
+bool SliderBox::openDevice(std::string& path)
+{
+    serial_fd = open(path.c_str(), O_NONBLOCK | O_RDWR);
+
+    if(serial_fd == -1) {
+	perror("could not open Sliderbox device");
+	return false;
+    }
+
+    struct termios termios_p;
+    if(tcgetattr(serial_fd, &termios_p)){
+	perror("Failed to get terminal info \n");
+	return false;
+    }
+
+    cfmakeraw(&termios_p);
+
+    if(cfsetispeed(&termios_p, B115200)){
+	perror("Failed to set terminal input speed \n");
+	return false;
+    }
+
+    if(cfsetospeed(&termios_p, B115200)){
+	perror("Failed to set terminal output speed \n");
+	return false;
+    }
+
+    if(tcsetattr(serial_fd, TCSANOW, &termios_p)) {
+	perror("Failed to set speed \n");
+	return false;
+    }
+    initialized = true;
+    
+    return true;
+}
+
+
     /*!
         \fn SliderBox::init()
      */
@@ -254,39 +292,9 @@ namespace controldev
                         strcpy(dev + 5, devname->name);
                         printf("Found AsguardSliderBox at %s \n", dev);
 
-                        serial_fd = open(dev, O_NONBLOCK | O_RDWR);
-
-                        if(serial_fd == -1) {
-                                            perror("could not open Sliderbox device");
-                        return false;
-                        }
-
-                        struct termios termios_p;
-                        if(tcgetattr(serial_fd, &termios_p)){
-                        perror("Failed to get terminal info \n");
-                        return false;
-                        }
-                        
-                        cfmakeraw(&termios_p);
-                        
-                        if(cfsetispeed(&termios_p, B115200)){
-                        perror("Failed to set terminal input speed \n");
-                        return false;
-                        }
-      
-                        if(cfsetospeed(&termios_p, B115200)){
-                        perror("Failed to set terminal output speed \n");
-                        return false;
-                        }
-      
-                        if(tcsetattr(serial_fd, TCSANOW, &termios_p)) {
-                        perror("Failed to set speed \n");
-                        return false;
-                        }
-                            sysfs_close_device(curdev);
-                        initialized = true;
-                        return true;
-
+			sysfs_close_device(curdev);
+			std::string path(dev);
+			return openDevice(path);			
                     }
                     }
                 }

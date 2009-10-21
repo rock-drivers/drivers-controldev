@@ -12,6 +12,8 @@
 #ifndef SLIDERBOX_H
 #define SLIDERBOX_H
 
+#include <string>
+
 namespace controldev
 {
 
@@ -32,8 +34,8 @@ namespace controldev
         ~SliderBox();
         bool init();
         bool connectBox();
-        
-        bool pollNonBlocking();
+	bool pollNonBlocking();
+	bool openDevice(std::string &path);
 
         unsigned short getValue(unsigned int nr) {
           if(nr > 6)
@@ -54,6 +56,7 @@ namespace controldev
         }
 
     private:
+	
         int serial_fd;
         bool initialized;
         bool connected;
