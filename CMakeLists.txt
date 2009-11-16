@@ -11,6 +11,10 @@ find_package(PkgConfig)
 ADD_LIBRARY(controldev SHARED Joystick.cpp SliderBox.cpp)
 TARGET_LINK_LIBRARIES(controldev sysfs)
 
+ADD_EXECUTABLE(sliderboxTest testSB.cpp)
+TARGET_LINK_LIBRARIES(sliderboxTest controldev)
+
+
 CONFIGURE_FILE(Doxyfile.in Doxyfile @ONLY)
 ADD_CUSTOM_TARGET(doc doxygen Doxyfile)
 INSTALL(TARGETS controldev

@@ -34,7 +34,7 @@ namespace controldev
         ~SliderBox();
         bool init();
         bool connectBox();
-	bool pollNonBlocking();
+	bool pollNonBlocking(bool& updated);
 	bool openDevice(std::string &path);
 
         unsigned short getValue(unsigned int nr) {
