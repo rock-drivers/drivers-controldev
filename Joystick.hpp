@@ -25,21 +25,21 @@ namespace controldev
 //      static const int PAN_AXIS = 4;
 //      static const int TILT_AXIS = 5;
 
-      bool init(std::string const& dev);
+      virtual bool init(std::string const& dev);
       
       void setDeadspot(bool onOff, double size);
       
-      bool updateState();
+      virtual bool updateState();
       
-      double getAxis(Axis axis_nr) const;
+      virtual double getAxis(Axis axis_nr) const;
 
-      bool getButtonPressed(int btn_nr) const;
+      virtual bool getButtonPressed(int btn_nr) const;
 
-      int getNrAxis() const {
+      virtual int getNrAxis() const {
         return nb_axes;
       }
       
-      int getNrButtons() const {
+      virtual int getNrButtons() const {
         return nb_buttons;
       }
 
@@ -47,7 +47,11 @@ namespace controldev
       {
           return fd;
       }
-
+    
+      std::string const getName() const {
+	  return name;
+      }
+      
       private:
       int fd;
       bool initialized;
@@ -58,6 +62,7 @@ namespace controldev
       int *buttons;
       unsigned char nb_buttons;
       unsigned char nb_axes;
+      std::string name;
         
     };
 }     

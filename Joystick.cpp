@@ -50,8 +50,17 @@ namespace controldev
         perror("button");
         return false;	
       }
+      
+      char name_char[50];
+      
+      if(ioctl(fd, JSIOCGNAME(50), name_char) == -1) {
+        perror("name");
+        return false;	
+      }
+      
+      name = std::string(name_char);
 
-      std::cout << "Axes: " << nb_axes <<" Buttons: " << nb_buttons <<std::endl;
+      std::cout << "Axes: " << (int) nb_axes <<" Buttons: " << (int) nb_buttons << " Name: " << name <<std::endl;
 
       axes = new int[nb_axes];
       buttons = new int[nb_buttons];
@@ -144,7 +153,7 @@ namespace controldev
       if(buttons)
 	delete[] buttons;
 
-      if(fd =! -1)
+      if(fd != -1)
 	close(fd);
 	
       if(!initialized)

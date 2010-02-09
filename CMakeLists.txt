@@ -8,11 +8,14 @@ ADD_DEFINITIONS(-Wall -O2)
 
 find_package(PkgConfig)
 
-ADD_LIBRARY(controldev SHARED Joystick.cpp SliderBox.cpp)
+ADD_LIBRARY(controldev SHARED JoyPad.cpp Joystick.cpp SliderBox.cpp)
 TARGET_LINK_LIBRARIES(controldev sysfs)
 
 ADD_EXECUTABLE(sliderboxTest testSB.cpp)
 TARGET_LINK_LIBRARIES(sliderboxTest controldev)
+
+ADD_EXECUTABLE(joystickTest JoystickTest.cpp)
+TARGET_LINK_LIBRARIES(joystickTest controldev)
 
 
 CONFIGURE_FILE(Doxyfile.in Doxyfile @ONLY)
