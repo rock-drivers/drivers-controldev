@@ -21,20 +21,25 @@ bool controldev::JoyPad::updateState()
     //diff in ms
     long diff = (curTime.tv_sec - lastUpdateTime.tv_sec)*1000 + (static_cast<int>(curTime.tv_usec) - lastUpdateTime.tv_usec) / 1000;
 
-    lastUpdateTime = curTime;
+    if(ret || diff > 2) {
+	lastUpdateTime = curTime;
+	
+	if(controldev::Joystick::getButtonPressed(5))
+	    sliderAxis += 0.005 * diff;
+	if(controldev::Joystick::getButtonPressed(7))
+	    sliderAxis -= 0.005 * diff;
+	
+	if(sliderAxis > 1.0) {
+	    sliderAxis = 1.0;
+	}
+	
+	if(sliderAxis < -1.0)
+	    sliderAxis = -1.0;
+	
+	ret |= controldev::Joystick::getButtonPressed(5) | controldev::Joystick::getButtonPressed(7);
+    }
     
-    if(controldev::Joystick::getButtonPressed(5))
-	sliderAxis += 0.005 * diff;
-    if(controldev::Joystick::getButtonPressed(7))
-	sliderAxis -= 0.005 * diff;
-    
-    if(sliderAxis > 1.0)
-	sliderAxis = 1.0;
-    
-    if(sliderAxis < -1.0)
-	sliderAxis = -1.0;
-    
-    return ret || controldev::Joystick::getButtonPressed(5) || controldev::Joystick::getButtonPressed(7);
+    return ret;
 }
 
 
