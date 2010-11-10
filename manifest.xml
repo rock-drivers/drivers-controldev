@@ -1,3 +1,11 @@
 <package>
-    <rosdep name="sysfs" />
+    <description brief="driver for usual control input devices (joystick)">
+    </description>
+    <author>Janosch Machowinski/janosch.machowinski@dfki.de>
+    <copyright>
+        DFKI/robotik@dfki.de
+    </copyright>
+    <license>LGPL v2 or later</license>
+
+    <depend package="sysfs" />
 </package>
