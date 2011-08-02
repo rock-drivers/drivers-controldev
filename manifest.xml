@@ -8,4 +8,5 @@
     <license>LGPL v2 or later</license>
 
     <depend package="sysfs" />
+    <depend package="libusb-old" />
 </package>
