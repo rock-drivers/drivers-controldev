@@ -217,14 +217,17 @@ bool LogitechG27::openEvDev(char evDev[32])
 	      axis_codes[nb_axes] = j;
 	      nb_axes++;
 	      ioctl(fd, EVIOCGABS(j), abs);
+	      printf("min: %i, max: %i, current: %i\n", abs[1], abs[2], abs[0]);
+	      /*
 		for (k = 0; k < 5; k++)
 		  if ((k < 3) || abs[k])
 		    printf("%i ",abs[k]);
 		  printf("\n");
+	      */
 	    }
 	  }
 	}
-	
+	close(fd);
 	return true;
 }
 
@@ -350,8 +353,33 @@ bool LogitechG27::openEvDev(char evDev[32])
     {
       if (!initialized) return 0;
       if (axis_nr > nb_axes) return 0;
-//      return axes[axis_nr] / 32767.0;
-	return axes[axis_nr] / 8191.0 -1.0;
+      switch (axis_nr) {
+	case AXIS_Wheel:
+	  return axes[axis_nr] / 8191.0 -1.0;
+	  break;
+	  
+	case AXIS_Clutch:
+	  return axes[axis_nr];
+	  break;
+	  
+	case AXIS_Throttle:
+	  return axes[axis_nr];
+	  break;
+	  
+	case AXIS_Brake:
+	  return axes[axis_nr];
+	  break;
+	  
+	case AXIS_Clutchdirleftright:
+	  return axes[axis_nr];
+	  break;
+	  
+	case AXIS_Clutchdirupdown:
+	  return axes[axis_nr];
+	  break;	
+      }
+//      return axes[axis_nr];
+//	return axes[axis_nr] / 8191.0 -1.0;
     }
 
 }

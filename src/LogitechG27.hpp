@@ -28,7 +28,7 @@ namespace controldev
 	  AXIS_Clutchdirleftright = 4,
           AXIS_Clutchdirupdown = 5, 
       };
-
+      
       virtual bool init();
       
       void setDeadspot(bool onOff, double size);
