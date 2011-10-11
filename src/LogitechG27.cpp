@@ -71,8 +71,9 @@ namespace controldev
     initialized = false;
     nb_axes = 0;
     nb_buttons = 0;
-    button_codes = new int[32];
     axis_codes = new int[8];
+    axes_inits = new int[8];
+    button_codes = new int[32];
     
     if (!initProMode()) return false;
     if (!initEvDev(evDev)) return false;
@@ -93,7 +94,8 @@ namespace controldev
     }
 
     for(int i = 0; i < nb_axes; i++) {
-      axes[i] = 0;
+      // axes[i] = 0;
+      axes[i] = axes_inits[i];
     }
 
     initialized = true;
@@ -209,14 +211,15 @@ bool LogitechG27::openEvDev(char evDev[32])
 	  for (j = 0; j < KEY_MAX; j++)
 	  if (test_bit(j, bit[i])) {
 	    printf("	Event code %i\n",j);
-	    if (i == 1) {
+	    if (i == EV_KEY) {
 	      button_codes[nb_buttons] = j;
 	      nb_buttons++;
 	    }
 	    if (i == EV_ABS) {
+	      ioctl(fd, EVIOCGABS(j), abs);	      
 	      axis_codes[nb_axes] = j;
+	      axes_inits[nb_axes] = abs[0];
 	      nb_axes++;
-	      ioctl(fd, EVIOCGABS(j), abs);
 	      printf("min: %i, max: %i, current: %i\n", abs[1], abs[2], abs[0]);
 	      /*
 		for (k = 0; k < 5; k++)
@@ -253,11 +256,20 @@ bool LogitechG27::openEvDev(char evDev[32])
       return true;
     }
     
-    bool LogitechG27::getButtonPressed(int btn_nr) const{
+      bool LogitechG27::getButtonPressed(int btn_nr) const{
+
       if(btn_nr > nb_buttons)
         return false;
       
       return buttons[btn_nr];
+
+
+/*
+      int btn_nr = solveCode(button_codes, nb_buttons, btn_code);
+      if (btn_nr < 0) return false;
+      
+      return buttons[btn_nr];
+*/
     }
     
     int LogitechG27::solveCode(int* list, int listsize, int code)
@@ -349,12 +361,13 @@ bool LogitechG27::openEvDev(char evDev[32])
         return;
     }
 
-    double LogitechG27::getAxis(Axis axis_nr) const
+    double LogitechG27::getAxis(G27Axis axis_nr) const
     {
       if (!initialized) return 0;
       if (axis_nr > nb_axes) return 0;
       switch (axis_nr) {
 	case AXIS_Wheel:
+	  // is min: 0, max: 16383, we want [-1, 1]
 	  return axes[axis_nr] / 8191.0 -1.0;
 	  break;
 	  
@@ -363,7 +376,7 @@ bool LogitechG27::openEvDev(char evDev[32])
 	  break;
 	  
 	case AXIS_Throttle:
-	  return axes[axis_nr];
+	  return (255 - axes[axis_nr]) / 255.0;
 	  break;
 	  
 	case AXIS_Brake:
@@ -381,5 +394,7 @@ bool LogitechG27::openEvDev(char evDev[32])
 //      return axes[axis_nr];
 //	return axes[axis_nr] / 8191.0 -1.0;
     }
+
+
 
 }
