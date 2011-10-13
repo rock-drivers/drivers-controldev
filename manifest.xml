@@ -1,5 +1,5 @@
 <package>
-    <description brief="driver for usual control input devices (joystick)">
+    <description brief="driver for usual control input devices (joystick, joypad, steering wheels)">
     </description>
     <author>Janosch Machowinski/janosch.machowinski@dfki.de>
     <copyright>
