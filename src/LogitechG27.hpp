@@ -125,8 +125,8 @@ namespace controldev
       bool deadspot;
       double deadspot_size;
       
-      int *axes;
-      int *buttons;
+      long *axes;
+      long *buttons;
       unsigned char nb_buttons;
       unsigned char nb_axes;
       std::string name;
@@ -141,11 +141,11 @@ namespace controldev
       struct usb_device *usbdev;
       ::usb_dev_handle *usb_handle;
       
-      int *button_codes;
-      int *axis_codes;
-      int *axes_inits;
+      long *button_codes;
+      long *axis_codes;
+      long *axes_inits;
 
-      int solveCode(int* list, int listsize, int code);      
+      int solveCode(long* list, int listsize, int code);      
       
       bool initProMode();
       bool initEvDev(char evDev[32]);
