@@ -71,9 +71,9 @@ namespace controldev
     initialized = false;
     nb_axes = 0;
     nb_buttons = 0;
-    axis_codes = new int[8];
-    axes_inits = new int[8];
-    button_codes = new int[32];
+    axis_codes = new long[8];
+    axes_inits = new long[8];
+    button_codes = new long[32];
     
     if (!initProMode()) return false;
     if (!initEvDev(evDev)) return false;
@@ -84,10 +84,10 @@ namespace controldev
 	  return false;
     }
     
-    std::cout << "Found device " << name << " featuring " << (int) nb_axes << " axes, " << (int) nb_buttons << " buttons." << std::endl;
+    std::cout << "Found device " << name << " featuring " << (long) nb_axes << " axes, " << (long) nb_buttons << " buttons." << std::endl;
     
-    axes = new int[nb_axes];
-    buttons = new int[nb_buttons];
+    axes = new long[nb_axes];
+    buttons = new long[nb_buttons];
     
     for(int i = 0; i < nb_buttons; i++) {
       buttons[i] = 0;
@@ -247,7 +247,7 @@ bool LogitechG27::openEvDev(char evDev[32])
       if (rd != -1) {
 	for (i = 0; i < rd / (signed int) sizeof(struct input_event); i++) {
 	  if (ev[i].type == TYPE_KEY) {
-	      buttons[solveCode(button_codes, nb_buttons, ev[i].code)] = ev[i].value;
+	      buttons[solveCode(button_codes, nb_buttons, ev[i].code)] = (unsigned int) ev[i].value;
 	  } else if (ev[i].type == TYPE_ABSOLUTE) {
 	    axes[solveCode(axis_codes, nb_axes, ev[i].code)] = ev[i].value;
 	  }
@@ -272,7 +272,7 @@ bool LogitechG27::openEvDev(char evDev[32])
 */
     }
     
-    int LogitechG27::solveCode(int* list, int listsize, int code)
+    int LogitechG27::solveCode(long* list, int listsize, int code)
     {
       for (int i = 0; i < listsize; i++) {
 	if (list[i] == code) return i;
