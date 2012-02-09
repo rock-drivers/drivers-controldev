@@ -9,6 +9,7 @@
 #include <linux/joystick.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdexcept>
 
 #include <stdbool.h>
 #include <getopt.h>
@@ -97,6 +98,14 @@ namespace controldev
       // axes[i] = 0;
       axes[i] = axes_inits[i];
     }
+
+    //switch to nonblocking
+    int flags;
+    if (-1 == (flags = fcntl(fd, F_GETFL, 0)))
+        flags = 0;
+    
+    if(!fcntl(fd, F_SETFL, flags | O_NONBLOCK))
+	return false;
 
     initialized = true;
     return true;
@@ -195,7 +204,7 @@ bool LogitechG27::openEvDev(char evDev[32])
 	
 	printf("Input device name: \"%s\"\n", devName);
 
-        int i, j, k;
+        int i, j;
         int abs[5];
         unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
 
@@ -252,8 +261,9 @@ bool LogitechG27::openEvDev(char evDev[32])
 	    axes[solveCode(axis_codes, nb_axes, ev[i].code)] = ev[i].value;
 	  }
 	} 
+	return true;
       }
-      return true;
+      return false;
     }
     
       bool LogitechG27::getButtonPressed(int btn_nr) const{
@@ -391,6 +401,8 @@ bool LogitechG27::openEvDev(char evDev[32])
 	  return axes[axis_nr];
 	  break;	
       }
+      throw std::runtime_error("Requested value for non existing axis");
+      return 0;
 //      return axes[axis_nr];
 //	return axes[axis_nr] / 8191.0 -1.0;
     }
