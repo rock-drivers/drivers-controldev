@@ -104,7 +104,7 @@ namespace controldev
     if (-1 == (flags = fcntl(fd, F_GETFL, 0)))
         flags = 0;
     
-    if(!fcntl(fd, F_SETFL, flags | O_NONBLOCK))
+    if(fcntl(fd, F_SETFL, flags | O_NONBLOCK))
 	return false;
 
     initialized = true;
