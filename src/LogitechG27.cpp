@@ -189,15 +189,15 @@ bool LogitechG27::openEvDev(char evDev[32])
         return false;
     }
     
-    printf("Input driver version is %d.%d.%d\n", version >> 16, (version >> 8) & 0xff, version & 0xff);
+    //printf("Input driver version is %d.%d.%d\n", version >> 16, (version >> 8) & 0xff, version & 0xff);
 
     ioctl(fd, EVIOCGID, id);
-        printf("Input device ID: bus 0x%ix vendor 0x%ix product 0x%ix version 0x%ix\n",
+    /*    printf("Input device ID: bus 0x%ix vendor 0x%ix product 0x%ix version 0x%ix\n",
 		id[ID_BUS], 
                 id[ID_VENDOR],
                 id[ID_PRODUCT],
                 id[ID_VERSION]
-               );
+		);*/
 	
         ioctl(fd, EVIOCGNAME(sizeof(devName)), devName);
         name = std::string(devName);
@@ -210,16 +210,16 @@ bool LogitechG27::openEvDev(char evDev[32])
 
         memset(bit, 0, sizeof(bit));
         ioctl(fd, EVIOCGBIT(0, EV_MAX), bit[0]);
-        printf("Supported events:\n");
+        //printf("Supported events:\n");
 
         for (i = 0; i < EV_MAX; i++)
 	if (test_bit(i, bit[0])) {
-	  printf("Event type %i\n",i);
+	    //printf("Event type %i\n",i);
 	  if (!i) continue;
 	  ioctl(fd, EVIOCGBIT(i, KEY_MAX), bit[i]);
 	  for (j = 0; j < KEY_MAX; j++)
 	  if (test_bit(j, bit[i])) {
-	    printf("	Event code %i\n",j);
+	      //printf("	Event code %i\n",j);
 	    if (i == EV_KEY) {
 	      button_codes[nb_buttons] = j;
 	      nb_buttons++;
@@ -229,7 +229,7 @@ bool LogitechG27::openEvDev(char evDev[32])
 	      axis_codes[nb_axes] = j;
 	      axes_inits[nb_axes] = abs[0];
 	      nb_axes++;
-	      printf("min: %i, max: %i, current: %i\n", abs[1], abs[2], abs[0]);
+	      //printf("min: %i, max: %i, current: %i\n", abs[1], abs[2], abs[0]);
 	      /*
 		for (k = 0; k < 5; k++)
 		  if ((k < 3) || abs[k])
