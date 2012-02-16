@@ -14,6 +14,9 @@ rock_library(controldev
 rock_executable(JoystickTest JoystickTest.cpp
     DEPS controldev)
 
+rock_executable(LogitechG27Init LogitechG27Init.cpp
+    DEPS controldev)
+
 ADD_EXECUTABLE(LogitechG27Test LogitechG27Test.cpp)
 TARGET_LINK_LIBRARIES(LogitechG27Test controldev pthread)
 
