@@ -8,7 +8,7 @@ namespace controldev
     class Joystick {
       public:
       Joystick();
-      ~Joystick();
+      virtual ~Joystick();
 
       enum Axis
       {
