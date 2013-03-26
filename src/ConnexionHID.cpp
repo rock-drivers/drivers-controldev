@@ -195,6 +195,8 @@ void ConnexionHID::getValue(struct connexionValues &coordinates, struct connexio
   coordinates.rx = rawValues.rx * fabs(rawValues.rx * scale[RX]);
   coordinates.rz = -rawValues.rz * fabs(rawValues.rz * scale[RY]);
   coordinates.ry = -rawValues.ry * fabs(rawValues.ry * scale[RZ]);
+  coordinates.button1 = rawValues.button1;
+  coordinates.button2 = rawValues.button2;
 }
 
 
