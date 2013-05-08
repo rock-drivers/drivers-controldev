@@ -21,6 +21,7 @@ ConnexionHID::ConnexionHID(){
    scale[RX] = 0.0008;
    scale[RY] = 0.0008;
    scale[RZ] = 0.0008;
+   oldValues.setZero();
 }
 
 ConnexionHID::~ConnexionHID(){
@@ -95,6 +96,7 @@ void ConnexionHID::close() {
 
 void ConnexionHID::getValue(struct connexionValues &coordinates, struct connexionValues &rawValues) {
     assert(fd > 0);
+    rawValues = oldValues;
   /* If input events don't come in fast enough a certain DoF may not be 
    * updated during a frame. This results in choppy and ugly animation.
    * To solve this we record the number of frames a certain DoF was idle
@@ -197,6 +199,7 @@ void ConnexionHID::getValue(struct connexionValues &coordinates, struct connexio
   coordinates.ry = -rawValues.ry * fabs(rawValues.ry * scale[RZ]);
   coordinates.button1 = rawValues.button1;
   coordinates.button2 = rawValues.button2;
+  oldValues= rawValues;
 }
 
 
