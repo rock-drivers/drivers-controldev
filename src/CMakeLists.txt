@@ -16,6 +16,9 @@ rock_library(controldev
 rock_executable(JoystickTest JoystickTest.cpp
     DEPS controldev)
 
+rock_executable(ConnexionTest connexion_test.cpp
+    DEPS controldev)
+
 rock_executable(LogitechG27Init LogitechG27Init.cpp
     DEPS controldev)
 
