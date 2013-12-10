@@ -69,6 +69,8 @@ protected:
   int fd;
   double scale[6];
   connexionValues oldValues;
+  double r_scale;
+  double t_scale;
 };
 
 #endif

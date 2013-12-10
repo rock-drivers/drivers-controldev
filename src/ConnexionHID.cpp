@@ -15,12 +15,14 @@ namespace controldev{
 
 
 ConnexionHID::ConnexionHID(){
-   scale[TX] = 0.001;
-   scale[TY] = 0.001;
-   scale[TZ] = 0.001;
-   scale[RX] = 0.0008;
-   scale[RY] = 0.0008;
-   scale[RZ] = 0.0008;
+   scale[TX] = 1;
+   scale[TY] = 1;
+   scale[TZ] = 1;
+   scale[RX] = 1;
+   scale[RY] = 1;
+   scale[RZ] = 1;
+   t_scale = 350;
+   r_scale = 350;
    oldValues.setZero();
 }
 
@@ -84,6 +86,29 @@ bool ConnexionHID::init(){
     return false;
   }
   closedir(dp);
+
+  struct input_absinfo abs;
+
+  //Does not work
+  if(ioctl (fd, EVIOCGABS (REL_X), &abs) == 0){
+      t_scale = abs.maximum;
+      printf("RelX Scale: %f\n",t_scale);
+  }
+  if(ioctl (fd, EVIOCGABS (REL_RX), &abs) == 0){
+      r_scale = abs.maximum;
+      printf("RelRX Scale: %f\n",r_scale);
+  }
+
+  if(ioctl (fd, EVIOCGABS (ABS_X), &abs) == 0){
+      t_scale = abs.maximum;
+      printf("Abs X Scale: %f\n",t_scale);
+  }
+  if(ioctl (fd, EVIOCGABS (ABS_RX), &abs) == 0){
+      r_scale = abs.maximum;
+      printf("Abs RX Scale: %f\n",r_scale);
+  }
+  
+
   return true;
 }
 
@@ -140,32 +165,32 @@ void ConnexionHID::getValue(struct connexionValues &coordinates, struct connexio
       switch(events[i].code) {
       //case ABS_X: //Same value as REL_* so because of the check above, this is not needed
       case REL_X:
-        rawValues.tx = events[i].value;
+        rawValues.tx = events[i].value/t_scale;
         idleFrameCount[0] = 0;
         break;
       //case ABS_Y:
       case REL_Y:
-        rawValues.ty = events[i].value;
+        rawValues.ty = events[i].value/t_scale;
         idleFrameCount[1] = 0;
         break;
       //case ABS_Z:
       case REL_Z:
-        rawValues.tz = events[i].value;
+        rawValues.tz = events[i].value/t_scale;
         idleFrameCount[2] = 0;
         break;
       //case ABS_RX:
       case REL_RX:
-        rawValues.rx = events[i].value;
+        rawValues.rx = events[i].value/t_scale;
         idleFrameCount[3] = 0;
         break;
       //case ABS_RY:
       case REL_RY:
-        rawValues.ry = events[i].value;
+        rawValues.ry = events[i].value/t_scale;
         idleFrameCount[4] = 0;
         break;
       //case ABS_RZ:
       case REL_RZ:
-        rawValues.rz = events[i].value;
+        rawValues.rz = events[i].value/t_scale;
         idleFrameCount[5] = 0;
         break;
       }
@@ -191,12 +216,12 @@ void ConnexionHID::getValue(struct connexionValues &coordinates, struct connexio
     }
   }
 
-  coordinates.tx = rawValues.tx * fabs(rawValues.tx * scale[TX]);
-  coordinates.tz = -rawValues.tz * fabs(rawValues.tz * scale[TY]);
-  coordinates.ty = -rawValues.ty * fabs(rawValues.ty * scale[TZ]);
-  coordinates.rx = rawValues.rx * fabs(rawValues.rx * scale[RX]);
-  coordinates.rz = -rawValues.rz * fabs(rawValues.rz * scale[RY]);
-  coordinates.ry = -rawValues.ry * fabs(rawValues.ry * scale[RZ]);
+  coordinates.tx = rawValues.tx  * scale[TX];
+  coordinates.tz = -rawValues.tz * scale[TY];
+  coordinates.ty = -rawValues.ty * scale[TZ];
+  coordinates.rx = rawValues.rx  * scale[RX];
+  coordinates.rz = -rawValues.rz * scale[RY];
+  coordinates.ry = -rawValues.ry * scale[RZ];
   coordinates.button1 = rawValues.button1;
   coordinates.button2 = rawValues.button2;
   oldValues= rawValues;
