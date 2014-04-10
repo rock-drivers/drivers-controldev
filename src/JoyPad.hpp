@@ -10,7 +10,7 @@ class JoyPad : public Joystick
 {
     public:
 	JoyPad();
-	virtual double getAxis(Axis axis_nr) const;
+	virtual double getAxis(int axis_nr) const;
 	virtual bool getButtonPressed(int btn_nr) const;
 	virtual int getNrAxis() const;
 	virtual int getNrButtons() const;

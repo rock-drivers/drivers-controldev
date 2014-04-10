@@ -1,14 +1,16 @@
 rock_library(controldev
-    SOURCES JoyPad.cpp  
+    SOURCES JoyPad.cpp
             Joystick.cpp
-	    LogitechG27.cpp  
-	    SliderBox.cpp 
+	    LogitechG27.cpp
+	    SliderBox.cpp
             ConnexionHID.cpp
-    HEADERS JoyPad.hpp  
-            Joystick.hpp  
-	    LogitechG27.hpp  
+            EvdevHelper.cpp
+    HEADERS JoyPad.hpp
+            Joystick.hpp
+	    LogitechG27.hpp
 	    SliderBox.hpp
             ConnexionHID.hpp
+            EvdevHelper.hpp
     DEPS_PKGCONFIG libsysfs libusb)
 
 

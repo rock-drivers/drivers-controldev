@@ -43,23 +43,10 @@ bool controldev::JoyPad::updateState()
 }
 
 
-double controldev::JoyPad::getAxis(controldev::Joystick::Axis axis_nr) const
+double controldev::JoyPad::getAxis(int axis_nr) const
 {
     double val = 0;
-    switch(axis_nr) {
-	case AXIS_Sideward:
-	    break;
-	    
-	case AXIS_Forward:
-	    val = controldev::Joystick::getAxis(AXIS_Forward);
-	    break;
-	case AXIS_Turn:
-	    val = controldev::Joystick::getAxis(AXIS_Turn);
-	    break;
-	case AXIS_Slider:
-	    val = sliderAxis;
-	    break;
-    }
+    val = controldev::Joystick::getAxis(axis_nr);
     return val;
 }
 
