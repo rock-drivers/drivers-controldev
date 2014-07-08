@@ -14,10 +14,19 @@ namespace controldev
       {
           AXIS_Sideward = 0,
           AXIS_Forward = 1,
-	  AXIS_Turn = 2,
+          AXIS_Turn = 2,
           AXIS_Slider = 3,
-	  AXIS_Pan = 4,
+          AXIS_Pan = 4,
           AXIS_Tilt = 5, // What is the Tilt-Axis?
+          AXIS_0 = 0,
+          AXIS_1 = 1,
+          AXIS_2 = 2,
+          AXIS_3 = 3,
+          AXIS_4 = 4,
+          AXIS_5 = 5,
+          AXIS_6 = 6,
+          AXIS_7 = 7,
+          AXIS_8 = 8
       };
 
 //      static const int FORWARD_AXIS = 1;
