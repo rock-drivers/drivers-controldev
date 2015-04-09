@@ -1,5 +1,6 @@
 #include "GraupnerMC20.hpp"
 #include <iostream>
+#include <assert.h>
 #define CRC_POLYNOME 0x1021
 
 using namespace controldev;
