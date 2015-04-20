@@ -4,12 +4,14 @@ rock_library(controldev
 	    LogitechG27.cpp  
 	    SliderBox.cpp 
             ConnexionHID.cpp
+            GraupnerMC20.cpp
     HEADERS JoyPad.hpp  
             Joystick.hpp  
 	    LogitechG27.hpp  
 	    SliderBox.hpp
             ConnexionHID.hpp
-    DEPS_PKGCONFIG libsysfs libusb)
+            GraupnerMC20.hpp
+    DEPS_PKGCONFIG  base-types iodrivers_base libsysfs libusb)
 
 
 
