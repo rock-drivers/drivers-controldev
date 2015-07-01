@@ -10,5 +10,6 @@
     <depend package="base/types" />
     <depend package="sysfs" />
     <depend package="libusb-old" />
+    <depend package="drivers/iodrivers_base" />
   <tags>stable</tags>
 </package>
