@@ -118,8 +118,8 @@ namespace controldev
       usbdev=usb_find_device(VENDOR,G27NORMAL);
       if ( usbdev != NULL ) {
 	printf ("found G27 in normal mode, setting to pro mode\n");
-	char setextended[] = { 0xf8, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00 };
-	char setextended2[] = { 0xf8, 0x09, 0x04, 0x01, 0x00, 0x00, 0x00 };
+	char setextended[] = { (char)0xf8, (char)0x0A, (char)0x00, (char)0x00, (char)0x00, (char)0x00, (char)0x00 };
+	char setextended2[] = { (char)0xf8, (char)0x09, (char)0x04, (char)0x01, (char)0x00, (char)0x00, (char)0x00 };
 	send_command(setextended, setextended2);
 	// wait a sec for the wheel to init
 	sleep(1);
