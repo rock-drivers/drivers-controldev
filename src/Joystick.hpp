@@ -10,6 +10,7 @@ namespace controldev
     class Joystick
     {
       public:
+
       Joystick();
       virtual ~Joystick();
 
@@ -44,6 +45,7 @@ namespace controldev
         virtual bool updateState();
 
         virtual double getAxis(int axis_nr) const;
+
         std::vector<double> getAxes() const;
 
         virtual bool getButtonPressed(int btn_nr) const;
