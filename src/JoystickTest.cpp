@@ -1,5 +1,4 @@
 #include "Joystick.hpp"
-#include "JoyPad.hpp"
 #include <iostream>
 #include <stdlib.h>
 
@@ -14,14 +13,6 @@ int main(int argc, char**argv) {
 
     Joystick *js = new Joystick();
     js->init(argv[1]);
-    
-    if(js->getName() == std::string("Logitech Logitech RumblePad 2 USB")) {
-	std::cout << "Detected Rumblepad" << std::endl;
-	delete js;
-	js = new JoyPad();
-	js->init(argv[1]);
-    }
-    
     while(1) {
 	if(js->updateState()) {
 	    std::cout << "Got Update" << std::endl;
