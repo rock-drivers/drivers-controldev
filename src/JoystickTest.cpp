@@ -13,12 +13,13 @@ int main(int argc, char**argv) {
 
     Joystick *js = new Joystick();
     js->init(argv[1]);
+        
     while(1) {
 	if(js->updateState()) {
 	    std::cout << "Got Update" << std::endl;
-	    std::cout << "Forward Axis: " << js->getAxis(Joystick::AXIS_0) << std::endl;
-	    std::cout << "Sideward Axis: " << js->getAxis(Joystick::AXIS_1) << std::endl;
-	    std::cout << "Slider Axis: " << js->getAxis(Joystick::AXIS_2) << std::endl;
+	    std::cout << "Forward Axis: " << js->getAxis(0) << std::endl;
+	    std::cout << "Sideward Axis: " << js->getAxis(1) << std::endl;
+	    std::cout << "Slider Axis: " << js->getAxis(2) << std::endl;
 	    std::cout << "Buttons: ";
 	    for(int i = 0; i < js->getNrButtons(); i++) {
 		std::cout << js->getButtonPressed(i) << " ";

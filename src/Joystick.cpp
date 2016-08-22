@@ -160,7 +160,7 @@ namespace controldev
         return;
     }
 
-    double Joystick::getAxis(Axis axis_nr) const
+    double Joystick::getAxis(size_t axis_nr) const
     {
       if (!initialized) return 0;
       if (axis_nr > nb_axes) return 0;
