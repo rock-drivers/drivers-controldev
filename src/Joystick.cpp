@@ -32,14 +32,14 @@ bool Joystick::init(std::string const& dev) {
         return false;
     } 
 
-    int nb_axes;
+    unsigned char nb_axes;
     
     if(ioctl(fd, JSIOCGAXES, &nb_axes) == -1) {
         perror("axes");
         return false;
     }
     
-    int nb_buttons;
+    unsigned char nb_buttons;
 
     if(ioctl(fd, JSIOCGBUTTONS, &nb_buttons) == -1) {
         perror("button");
