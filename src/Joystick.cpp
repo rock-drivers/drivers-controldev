@@ -11,6 +11,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdexcept>
+#include <cmath>
 
 namespace controldev
 {
@@ -75,7 +76,7 @@ void Joystick::applyDeadSpot()
 {
     for(size_t i = 0; i < axes.size() ; i++)
     {
-        if(abs(axes[i]) < deadspot_size)
+        if(std::abs(axes[i]) < deadspot_size)
             axes[i] = 0;
         else if(axes[i] > 0)
         {
