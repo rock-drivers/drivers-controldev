@@ -1,15 +1,14 @@
 rock_library(controldev
     SOURCES Joystick.cpp
-	    LogitechG27.cpp  
-	    SliderBox.cpp 
+	    LogitechG27.cpp
+	    SliderBox.cpp
             ConnexionHID.cpp
-    HEADERS Joystick.hpp  
-	    LogitechG27.hpp  
+    HEADERS Joystick.hpp
+	    LogitechG27.hpp
 	    SliderBox.hpp
             ConnexionHID.hpp
+            RawCommand.hpp
     DEPS_PKGCONFIG libsysfs libusb)
-
-
 
 rock_executable(JoystickTest JoystickTest.cpp
     DEPS controldev)
