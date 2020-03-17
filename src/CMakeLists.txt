@@ -3,12 +3,14 @@ rock_library(controldev
 	    LogitechG27.cpp
 	    SliderBox.cpp
             ConnexionHID.cpp
+            GraupnerMC20.cpp
     HEADERS Joystick.hpp
 	    LogitechG27.hpp
 	    SliderBox.hpp
             ConnexionHID.hpp
             RawCommand.hpp
-    DEPS_PKGCONFIG libsysfs libusb)
+            GraupnerMC20.hpp
+    DEPS_PKGCONFIG base-types iodrivers_base libsysfs libusb)
 
 rock_executable(JoystickTest JoystickTest.cpp
     DEPS controldev)
@@ -24,4 +26,3 @@ TARGET_LINK_LIBRARIES(LogitechG27Test controldev pthread)
 
 rock_executable(SliderboxTest testSB.cpp
     DEPS controldev)
-
