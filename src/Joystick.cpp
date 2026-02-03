@@ -56,7 +56,7 @@ bool Joystick::init(std::string const& dev) {
     // The last bit is not the null terminator after reading, therefore the
     // buffer was overflown
     if (name_char[127] != '\0') {
-        perror("name");
+        std::cerr << "Joystick name exceeds the maximum supported size" << std::endl;
         return false;
     }
 
