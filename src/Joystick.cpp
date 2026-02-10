@@ -44,16 +44,22 @@ bool Joystick::init(std::string const& dev) {
 
     if(ioctl(fd, JSIOCGBUTTONS, &nb_buttons) == -1) {
         perror("button");
-        return false;	
+        return false;
     }
-    
-    char name_char[50];
-    
-    if(ioctl(fd, JSIOCGNAME(50), name_char) == -1) {
+
+    char name_char[128];
+    name_char[127] = '\0';
+    if(ioctl(fd, JSIOCGNAME(128), name_char) == -1) {
         perror("name");
-        return false;	
+        return false;
     }
-    
+    // The last bit is not the null terminator after reading, therefore the
+    // buffer was overflown
+    if (name_char[127] != '\0') {
+        std::cerr << "Joystick name exceeds the maximum supported size" << std::endl;
+        return false;
+    }
+
     name = std::string(name_char);
 
     std::cout << "Axes: " << (int) nb_axes <<" Buttons: " << (int) nb_buttons << " Name: " << name <<std::endl;
